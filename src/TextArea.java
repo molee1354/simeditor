@@ -1,7 +1,6 @@
 import javax.swing.*;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Insets;
+import javax.swing.text.*;
+import java.awt.*;
 
 public class TextArea {
     public final JScrollPane scrollPane;
@@ -23,7 +22,7 @@ public class TextArea {
         this.textArea.setEditable(true);
         this.textArea.setLineWrap(true);
         this.textArea.setWrapStyleWord(true);
-        this.textArea.setFont(new Font("FiraCode Nerd Font Mono", Font.PLAIN, 16));
+        this.textArea.setFont(new Font("Noto Sans CJK KR", Font.PLAIN, 16));
 
         this.textArea.setBackground(Color.BLACK);
         this.textArea.setForeground(Color.WHITE);

@@ -8,18 +8,25 @@ import java.util.Scanner;
 public class Editor {
     private final int width;
     private final int height;
-
-    private final File file;
+    private final String filename;
+    private File file;
 
     public Editor(String filename) {
-        this.file = new File(filename);
+        this.filename = filename;
         this.width = 800;
         this.height = 600;
     }
-    private String readFile() {
+    private String readFile(JFrame frame) {
+        File file;
+        if (!this.filename.isEmpty()) {
+            file = new File(this.filename);
+        } else {
+            file = new File(showFileSelectorDialog(frame));
+        }
+        this.file = file;
         StringBuilder out = new StringBuilder();
         try {
-            Scanner scanner = new Scanner(this.file);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 out.append(line);
@@ -31,6 +38,36 @@ public class Editor {
             nofile.printStackTrace();
         }
         return out.toString();
+    }
+
+    private static JButton openButton(JFrame frame) {
+        JButton fileSelectorButton = new JButton("open");
+        fileSelectorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showFileSelectorDialog(frame);
+            }
+        });
+        return fileSelectorButton;
+    }
+    private static String showFileSelectorDialog(JFrame frame) {
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Optionally, set the starting directory
+        // fileChooser.setCurrentDirectory(new File("C:\\"));
+
+        int result = fileChooser.showOpenDialog(frame);
+
+        String selectedFilePath = "";
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // User selected a file
+            selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
+            JOptionPane.showMessageDialog(frame, "Selected File: " + selectedFilePath);
+        } else if (result == JFileChooser.CANCEL_OPTION) {
+            // User canceled the operation
+            JOptionPane.showMessageDialog(frame, "File selection canceled.");
+        }
+        return selectedFilePath;
     }
 
     private static void saveFile(TextArea textArea, File target) {
@@ -82,7 +119,7 @@ public class Editor {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Add a JLabel (label) to the frame
-        String fileContents = this.readFile();
+        String fileContents = this.readFile(frame);
         TextArea textArea = getTextArea(fileContents);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -91,11 +128,13 @@ public class Editor {
         File currentfile = this.file;
         JButton saveButton = this.saveButton(textArea, currentfile);
         JButton savequitButton = this.savequitButton(textArea, currentfile);
+        JButton openButton = this.openButton(frame);
         JButton quitButton = this.quitButton();
 
         buttonPanel.add(saveButton, BorderLayout.WEST);
         buttonPanel.add(savequitButton, BorderLayout.CENTER);
         buttonPanel.add(quitButton, BorderLayout.EAST);
+        buttonPanel.add(openButton, BorderLayout.EAST);
         panel.add(textArea.scrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         frame.getContentPane().add(panel);
