@@ -35,7 +35,7 @@ public class Editor {
             scanner.close();
         } catch  (FileNotFoundException nofile){
             System.err.println("File not found");
-            nofile.printStackTrace();
+            System.exit(1);
         }
         return out.toString();
     }
@@ -134,7 +134,6 @@ public class Editor {
         buttonPanel.add(saveButton, BorderLayout.WEST);
         buttonPanel.add(savequitButton, BorderLayout.CENTER);
         buttonPanel.add(quitButton, BorderLayout.EAST);
-        buttonPanel.add(openButton, BorderLayout.EAST);
         panel.add(textArea.scrollPane, BorderLayout.CENTER);
         panel.add(buttonPanel, BorderLayout.SOUTH);
         frame.getContentPane().add(panel);
