@@ -1,13 +1,29 @@
+import editor.Configs;
+import editor.Editor;
+
 import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        Editor editor;
+        String filename;
         if (args.length == 0) {
-            editor = new Editor("");
+            filename = "";
         } else {
-            editor = new Editor(args[0]);
+            filename = args[0];
         }
-        editor.run();
+        Configs configs = new Configs(
+                800,
+                600,
+                16,
+                "",
+                Color.BLACK,
+                Color.WHITE,
+                Color.YELLOW,
+                10,
+                10,
+                10,
+                10
+        );
+        Editor editor = new Editor(filename, configs);
     }
 }
