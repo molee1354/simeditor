@@ -23,12 +23,11 @@ public class TextArea {
         this.textArea.setEditable(true);
         this.textArea.setLineWrap(true);
         this.textArea.setWrapStyleWord(true);
-        this.textArea.setFont(new Font("Consolas Mono", Font.PLAIN, 14));
+        this.textArea.setFont(new Font("FiraCode Nerd Font Mono", Font.PLAIN, 16));
 
         this.textArea.setBackground(Color.BLACK);
         this.textArea.setForeground(Color.WHITE);
         this.textArea.setCaretColor(Color.YELLOW);
-        this.textArea.getCaret().setVisible(true);
 
         this.textArea.setMargin(new Insets(10, 10, 10, 10));
     }

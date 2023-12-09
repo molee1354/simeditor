@@ -77,15 +77,13 @@ public class Editor {
     }
 
     public void run() {
-        JFrame frame = new JFrame("Window Title");
+        JFrame frame = new JFrame("Text Editor");
         // Set the default close operation
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Add a JLabel (label) to the frame
         String fileContents = this.readFile();
-        JTextArea jTextArea = new JTextArea();
-
-        TextArea textArea = new TextArea(jTextArea, fileContents);
+        TextArea textArea = getTextArea(fileContents);
 
         JPanel panel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -107,5 +105,21 @@ public class Editor {
 
         // Make the frame visible
         frame.setVisible(true);
+    }
+
+    private static TextArea getTextArea(String fileContents) {
+        JTextArea jTextArea = new JTextArea() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                // Enable anti-aliasing for text rendering
+                ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+                // Let the superclass handle the rest of the painting
+                super.paintComponent(g);
+            }
+        };
+
+        TextArea textArea = new TextArea(jTextArea, fileContents);
+        return textArea;
     }
 }
